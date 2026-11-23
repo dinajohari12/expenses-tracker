@@ -27,7 +27,7 @@ body{margin:0;min-height:100%;font-family:'Nunito',ui-rounded,'Segoe UI',system-
 :root[data-theme="dark"] #app{background:rgba(34,26,48,.5)}
 h1{font-size:22px;margin:6px 4px 12px;font-weight:800}
 h2{font-size:15px;margin:16px 4px 8px;font-weight:800}
-.card{background:var(--card);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-radius:28px;padding:15px;margin-bottom:12px;border:1px solid var(--hi);box-shadow:inset 0 1.5px 1px var(--hi),inset 0 -1px 1px rgba(255,255,255,.1),0 10px 30px rgba(0,0,0,.16)}
+.card{background:var(--card);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-radius:28px;padding:15px;margin: 12px 0px 12px 0;border:1px solid var(--hi);box-shadow:inset 0 1.5px 1px var(--hi),inset 0 -1px 1px rgba(255,255,255,.1),0 10px 30px rgba(0,0,0,.16)}
 .nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .nav button{width:38px;height:38px;border-radius:50%;border:0;background:var(--lav);color:#fff;font-size:20px;font-weight:800}
 .big{font-size:30px;font-weight:800}
@@ -127,9 +127,9 @@ function dRow(d){var left=d.amt-d.paid,done=left<=0;
 function vDebt(){
  var A=S.debts.filter(function(d){return d.dir===dir}),tot=sum(A,function(d){return d.amt-d.paid});
  return '<div class="pg"><div class="hd"><h1>🤝 Hutang</h1></div>'+
- '<div class="seg"><button class="'+(dir==='owed'?'on':'')+'" onclick="dir=\'owed\';render()">🌸 Dia hutang i</button><button class="'+(dir==='iowe'?'on':'')+'" onclick="dir=\'iowe\';render()">💜 I hutang dia</button></div>'+
+ '<div class="seg"><button class="'+(dir==='owed'?'on':'')+'" onclick="dir=\'owed\';render()">🌸 To Receive</button><button class="'+(dir==='iowe'?'on':'')+'" onclick="dir=\'iowe\';render()">💜 To Settle</button></div>'+
  '<div class="card"><div class="two"><input id="dn" placeholder="Nama orang"><input id="da" type="number" inputmode="decimal" placeholder="Jumlah (RM)"></div><div class="two"><input id="dt" placeholder="Nota"><input id="dd" type="date"></div><button class="btn" onclick="addDebt()">Simpan 💜</button></div>'+
- '<div class="card lst"><div class="mute">Baki '+(dir==='owed'?'dia hutang i':'i hutang dia')+': <b>'+rm(tot)+'</b></div>'+(A.map(dRow).join('')||'<div class="empty">Takde 🍃</div>')+'</div></div>'}
+ '<div class="card lst"><div class="mute">Baki '+(dir==='owed'?'To Receive':'To Settle')+': <b>'+rm(tot)+'</b></div>'+(A.map(dRow).join('')||'<div class="empty">Takde 🍃</div>')+'</div></div>'}
 function addDebt(){var a=parseFloat(val('da')),n=val('dn').trim();if(!n||!(a>0))return toast('Isi nama & jumlah ya 🥺');
  S.debts.push({id:uid(),name:n,dir:dir,amt:a,paid:0,note:val('dt').trim(),due:val('dd')});save();render()}
 function pay(id,all){var d=S.debts.filter(function(x){return x.id===id})[0],a=all?d.amt-d.paid:parseFloat(val('p'+id));if(!(a>0))return toast('Masukkan jumlah bayaran');d.paid=Math.min(d.amt,d.paid+a);save();render()}
