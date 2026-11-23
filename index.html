@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Duit Comel</title>
+<title>Dina's Expenses Tracker</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap">
 <style>
 :root{--bg:#fff0f6;--card:rgba(255,255,255,.4);--hi:rgba(255,255,255,.8);--ink:#3d2f47;--mute:#8c7a96;--pink:#ff8fb8;--mint:#6fd3b6;--lav:#b9a6ff;--peach:#ffb98a;--line:rgba(180,150,200,.3);--veil:255,240,246;--inp:rgba(255,255,255,.9);
@@ -60,31 +60,10 @@ input[type=date]{min-width:0;max-width:100%;min-height:44px;-webkit-appearance:n
 .tabs button.on{background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff}
 #toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-weight:700;font-size:13px;z-index:9;display:none}
 .empty{text-align:center;color:var(--mute);padding:14px}
-body::after{content:"";display:block;height:calc(120px + env(safe-area-inset-bottom,0px))}
-.tabs{transition:transform .3s ease}
+body::after{content:"";display:block;height:calc(150px + env(safe-area-inset-bottom,0px))}
+.tabs{transition:transform .3s ease;will-change:transform}
 @media (max-width:520px){.tabs.hide{transform:translateY(150%)}}
-@media (max-width:520px){#app{width:calc(100% - 44px);margin:22px auto 0;padding:10px 10px 1px;border-radius:30px}h1{font-size:19px;margin:4px 4px 10px}h2{font-size:14px;margin:12px 4px 6px}.card{padding:12px;border-radius:22px;margin-bottom:10px}.big{font-size:26px}input,select,textarea{padding:9px 11px;margin-bottom:6px;border-radius:12px}input[type=date]{min-height:42px}.btn{padding:10px 14px}.row .ic{width:34px;height:34px;font-size:19px;border-radius:12px}.nav button{width:34px;height:34px}.pill{padding:10px;border-radius:20px}.tabs{padding:6px 22px calc(14px + env(safe-area-inset-bottom,0px))}.tabs button{padding:5px 2px;font-size:10px}.tabs button span{font-size:18px}}
-html{height:100%;height:100dvh;overflow:hidden}
-:root{padding-bottom:max(4px,calc(env(safe-area-inset-bottom,0px) - 14px))}
-body{height:100%;margin:0;overflow:hidden;display:flex;flex-direction:column}
-body::after{display:none}
-#app{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden;align-self:center;width:calc(100% - 36px);max-width:460px;margin:12px 0 10px;padding:10px 10px 4px;border-radius:30px}
-.tabs{position:static;flex:none;width:calc(100% - 36px);max-width:460px;align-self:center;padding:0 0 6px}
-.pg{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;overflow-y:auto;scrollbar-width:none}
-.pg::-webkit-scrollbar{display:none}
-.pg>*{flex:none;margin:0!important}
-.pg>.lst{flex:1 1 0;min-height:70px;overflow-y:auto}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.hd h1{margin:0!important;font-size:19px}
-.hd .nav{margin:0;gap:6px}
-.hd .nav b{font-size:13px}
-.hd .nav button{width:30px;height:30px;font-size:17px}
-.card{padding:10px 12px;border-radius:20px}
-.big{font-size:24px}
-.row{padding:6px 0}
-input,select,textarea{padding:8px 10px;margin-bottom:6px}
-.btn{padding:9px 14px}
-.pill{padding:8px 10px}
+@media (max-width:520px){#app{width:calc(100% - 44px);margin:44px auto 0;padding:10px 10px 1px;border-radius:30px}h1{font-size:19px;margin:4px 4px 10px}h2{font-size:14px;margin:12px 4px 6px}.card{padding:12px;border-radius:22px;margin-bottom:10px}.big{font-size:26px}input,select,textarea{padding:9px 11px;margin-bottom:6px;border-radius:12px}input[type=date]{min-height:42px}.btn{padding:10px 14px}.row .ic{width:34px;height:34px;font-size:19px;border-radius:12px}.nav button{width:34px;height:34px}.pill{padding:10px;border-radius:20px}.tabs{padding:6px 22px calc(14px + env(safe-area-inset-bottom,0px))}.tabs button{padding:5px 2px;font-size:10px}.tabs button span{font-size:18px}}
 </style>
 </head>
 <body>
@@ -129,7 +108,7 @@ function vHome(){
  var cats=Object.keys(by).sort(function(a,b){return by[b]-by[a]}).map(function(c){return '<div class="row"><div class="ic">'+ce(c)+'</div><div class="t"><b>'+esc(c)+'</b><div class="bar" style="height:6px;margin:3px 0 0"><i style="width:'+(by[c]/spent*100)+'%"></i></div></div><div class="amt">'+rm(by[c])+'</div></div>'}).join('');
  return '<div class="pg"><div class="hd"><h1>Hi, Dina 🕊️</h1>'+nav()+'</div>'+
  '<div class="card"><div class="mute">Baki bajet bulan ni</div><div class="big" style="color:'+(rem<0?'#ff5c8a':'inherit')+'">'+rm(rem)+'</div><div class="bar" style="margin:6px 0 4px"><i style="width:'+pct+'%;'+(pct>=100?'background:#ff5c8a':'')+'"></i></div><div class="mute">Belanja '+rm(spent)+' / bajet '+rm(S.budget)+'</div></div>'+
- '<div class="grid"><div class="pill" style="background:rgba(255,143,184,.35)"><div style="font-size:12px">🌸 Dia hutang i</div><b>'+rm(owed)+'</b></div><div class="pill" style="background:rgba(185,166,255,.38)"><div style="font-size:12px">💜 I hutang dia</div><b>'+rm(iowe)+'</b></div></div>'+
+ '<div class="grid"><div class="pill" style="background:rgba(255,143,184,.35)"><div style="font-size:12px">🌸 To Receive</div><b>'+rm(owed)+'</b></div><div class="pill" style="background:rgba(185,166,255,.38)"><div style="font-size:12px">💜 To Settle</div><b>'+rm(iowe)+'</b></div></div>'+
  '<div class="card"><div class="mute">📅 Komitmen belum bayar ('+un.length+')</div><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:20px">'+rm(unAmt)+'</b><span class="mute">Baki: <b>'+rm(rem-unAmt)+'</b></span></div></div>'+
  '<div class="card lst"><div class="mute">Ikut kategori</div>'+(cats||'<div class="empty">Belum ada belanja 🍃</div>')+'</div></div>'}
 
@@ -179,7 +158,7 @@ function render(){
  var v={home:vHome,exp:vExp,debt:vDebt,comm:vComm,set:vSet}[tab];
  $('#app').innerHTML=v();
  $('#tabs').innerHTML=TABS.map(function(t){return '<button class="'+(t[0]===tab?'on':'')+'" onclick="go(\''+t[0]+'\')"><span>'+t[1]+'</span>'+t[2]+'</button>'}).join('')}
-(function(){var last=0,tb;function onS(){tb=tb||document.querySelector('.tabs');var y=window.pageYOffset||0,h=document.documentElement.scrollHeight-window.innerHeight;if(y<0||y>h)return;var d=y-last;if(Math.abs(d)<8)return;if(y<40||d<0)tb.classList.remove('hide');else tb.classList.add('hide');last=y}window.addEventListener('scroll',onS,{passive:true})})();
+(function(){var last=0,tick=false,tb;function run(){tick=false;tb=tb||document.querySelector('.tabs');var y=window.pageYOffset||0,h=document.documentElement.scrollHeight-window.innerHeight;if(y<=0){tb.classList.remove('hide');last=0;return}if(y>=h)return;var d=y-last;if(Math.abs(d)<10)return;if(d<0)tb.classList.remove('hide');else tb.classList.add('hide');last=y}window.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(run)}},{passive:true})})();
 applyBg();render();
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}
 </script>
