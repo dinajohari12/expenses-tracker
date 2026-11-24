@@ -128,9 +128,10 @@ function dRow(d){var left=d.amt-d.paid,done=left<=0;
 function vDebt(){
  var A=S.debts.filter(function(d){return d.dir===dir}),tot=sum(A,function(d){return d.amt-d.paid});
  return '<div class="pg"><div class="hd"><h1>🤝 Hutang</h1></div>'+
- '<div class="seg"><button class="'+(dir==='owed'?'on':'')+'" onclick="dir=\'owed\';render()">🌸 To Receive</button><button class="'+(dir==='iowe'?'on':'')+'" onclick="dir=\'iowe\';render()">💜 To Settle</button></div>'+
+ '<div class="seg"><button class="'+(dir==='owed'?'on':'')+'" onclick="setDir(\'owed\')">🌸 To Receive</button><button class="'+(dir==='iowe'?'on':'')+'" onclick="setDir(\'iowe\')">💜 To Settle</button></div>'+
  '<div class="card"><div class="two"><input id="dn" placeholder="Nama orang"><input id="da" type="number" inputmode="decimal" placeholder="Jumlah (RM)"></div><div class="two"><input id="dt" placeholder="Nota"><input id="dd" type="date"></div><button class="btn" onclick="addDebt()">Simpan 💜</button></div>'+
  '<div class="card lst"><div class="mute">Baki '+(dir==='owed'?'To Receive':'To Settle')+': <b>'+rm(tot)+'</b></div>'+(A.map(dRow).join('')||'<div class="empty">Takde 🍃</div>')+'</div></div>'}
+function setDir(x){dir=x;armed='';render()}
 function addDebt(){var a=parseFloat(val('da')),n=val('dn').trim();if(!n||!(a>0))return toast('Isi nama & jumlah ya 🥺');
  S.debts.push({id:uid(),name:n,dir:dir,amt:a,paid:0,note:val('dt').trim(),due:val('dd')});save();render()}
 function pay(id,all){var d=S.debts.filter(function(x){return x.id===id})[0],a=all?d.amt-d.paid:parseFloat(val('p'+id));if(!(a>0))return toast('Masukkan jumlah bayaran');d.paid=Math.min(d.amt,d.paid+a);save();render()}
@@ -147,7 +148,7 @@ function tgl(id){var c=S.comm.filter(function(x){return x.id===id})[0];c.paid=c.
 
 function vSet(){return '<div class="pg"><div class="hd"><h1>⚙️ Tetapan</h1></div>'+
  '<div class="card"><b>Bajet bulanan (RM)</b><div style="display:flex;gap:8px;margin-top:6px"><input id="sb" type="number" inputmode="decimal" value="'+S.budget+'" style="margin:0"><button class="btn sm" onclick="S.budget=parseFloat(val(\'sb\'))||0;save();toast(\'Disimpan 💖\')">Simpan</button></div></div>'+
- '<div class="card"><b>🖼️ Background sendiri</b><input id="sf" type="file" accept="image/*" onchange="setBg(this.files[0])" style="margin:6px 0"><div class="mute">Pudar (supaya senang fokus)</div><input type="range" min="0" max="0.9" step="0.05" value="'+S.vo+'" oninput="S.vo=+this.value;applyBg()" onchange="save()"><button class="btn ghost sm" style="width:100%" onclick="S.bg=null;save();applyBg();toast(\'Background dibuang\')">Buang background</button></div>'+
+ '<div class="card"><b>🖼️ Background</b><input id="sf" type="file" accept="image/*" onchange="setBg(this.files[0])" style="margin:6px 0"><div class="mute">Transparency</div><input type="range" min="0" max="0.9" step="0.05" value="'+S.vo+'" oninput="S.vo=+this.value;applyBg()" onchange="save()"><button class="btn ghost sm" style="width:100%" onclick="S.bg=null;save();applyBg();toast(\'Background dibuang\')">Buang background</button></div>'+
  '<div class="card"><b>💾 Backup</b><textarea id="bk" rows="2" placeholder="Backup keluar sini" style="margin:6px 0"></textarea><div class="two"><button class="btn sm" onclick="showBk()">Tunjuk backup</button><button class="btn sm ghost" onclick="restore()">Pulihkan</button></div></div>'+
  '<div class="card"><button class="btn ghost sm" style="width:100%" onclick="resetAll()">'+(armed==='rst'?'Pasti padam SEMUA? Tekan lagi':'Padam semua data')+'</button></div></div>'}
 function setBg(f){if(!f)return;var r=new FileReader();r.onload=function(e){var im=new Image();im.onload=function(){var s=Math.min(1,1000/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.bg=c.toDataURL('image/jpeg',.7);if(!save()){S.bg=null;toast('Gambar terlalu besar 🥺')}else toast('Background siap 🌈');applyBg()};im.src=e.target.result};r.readAsDataURL(f)}
